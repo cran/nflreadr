@@ -1,0 +1,109 @@
+# nocov start
+.onLoad <- function(libname,pkgname){
+
+  memoise_option <- getOption("nflreadr.cache", default = "memory")
+
+  if(!memoise_option %in% c("memory", "filesystem", "off")) memoise_option <- "memory"
+
+  if(memoise_option == "filesystem"){
+    cache_dir <- rappdirs::user_cache_dir(appname = "nflreadr")
+    dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+    cache <- cachem::cache_disk(dir = cache_dir)
+  }
+
+  if(memoise_option == "memory") cache <- cachem::cache_mem()
+
+  if(memoise_option != "off"){
+
+    assign(x = "load_pbp",
+           value = memoise::memoise(load_pbp, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_player_stats",
+           value = memoise::memoise(load_player_stats, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    # assign(x = "load_team_stats",
+    #        value = memoise::memoise(load_team_stats, ~ memoise::timeout(86400), cache = cache),
+    #        envir = parent.env(environment()))
+
+    assign(x = "load_rosters",
+           value = memoise::memoise(load_rosters, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_schedules",
+           value = memoise::memoise(load_schedules, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_nextgen_stats",
+           value = memoise::memoise(load_nextgen_stats, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_ff_rankings",
+           value = memoise::memoise(load_ff_rankings, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_ff_playerids",
+           value = memoise::memoise(load_ff_playerids, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_espn_qbr",
+           value = memoise::memoise(load_espn_qbr, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_depth_charts",
+           value = memoise::memoise(load_depth_charts, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_injuries",
+           value = memoise::memoise(load_injuries, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_pfr_passing",
+           value = memoise::memoise(load_pfr_passing, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_snap_counts",
+           value = memoise::memoise(load_snap_counts, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_draft_picks",
+           value = memoise::memoise(load_draft_picks, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    assign(x = "load_trades",
+           value = memoise::memoise(load_trades, ~ memoise::timeout(86400), cache = cache),
+           envir = parent.env(environment()))
+
+    # DON'T FORGET TO ADD MEMOISED FUNCTIONS TO THE CACHE CLEARING FUNCTION
+
+  }
+}
+
+.onAttach <- function(libname, pkgname){
+
+  # validate nflreadr.prefer
+
+  prefer_type <- getOption("nflreadr.prefer", default = "qs")
+
+  if(!prefer_type %in% c("qs", "rds")) {
+    packageStartupMessage("Note: nflreadr.prefer is set to ",
+                          prefer_type,
+                          'and should be one of c("qs", "rds")')
+  }
+
+  # validate nflreadr.cache
+
+  memoise_option <- getOption("nflreadr.cache",default = "memory")
+
+  if (!memoise_option %in% c("memory", "filesystem", "off")) {
+    packageStartupMessage('Note: nflreadr.cache is set to "',
+                          memoise_option,
+                          '" and should be one of c("memory","filesystem", "off"). \n',
+                          'Defaulting to "memory".')
+    memoise_option <- "memory"
+  }
+  if(memoise_option == "off") packageStartupMessage('Note: nflreadr.cache is set to "off"')
+}
+
+# nocov end
