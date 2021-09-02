@@ -21,18 +21,22 @@ test_that("load_player_stats", {
   skip_if_offline("github.com")
 
   ps <- load_player_stats()
-  ps_2020 <- load_player_stats(2020)
+  ps_2020 <- load_player_stats(2020,stat_type = "offense")
   ps_rds <- load_player_stats(2020, file_type = "rds")
   ps_all <- load_player_stats(seasons = TRUE)
+
+  kick <- load_player_stats(2020, stat_type = "kicking")
 
   expect_s3_class(ps, "tbl_df")
   expect_s3_class(ps_2020, "tbl_df")
   expect_s3_class(ps_rds, "tbl_df")
   expect_s3_class(ps_all, "tbl_df")
+  expect_s3_class(kick, "tbl_df")
 
   expect_gt(nrow(ps_2020), 5000)
   expect_gt(nrow(ps_rds), 5000)
   expect_gt(nrow(ps_all), 110000)
+  expect_gt(nrow(kick), 500)
 })
 
 test_that("load_schedules", {
@@ -105,11 +109,13 @@ test_that("Cache clearing works",{
   skip_on_cran()
   skip_if_offline("github.com")
 
-  expect(memoise::has_cache(load_player_stats)(), "Function was not memoised")
+  rds_from_url("https://raw.githubusercontent.com/nflverse/nfldata/master/data/draft_picks.rds")
 
-  expect_message(.clear_cache(), "nflreadr function cache cleared")
+  expect(memoise::has_cache(rds_from_url)("https://raw.githubusercontent.com/nflverse/nfldata/master/data/draft_picks.rds"), "Function was not memoised!")
 
-  expect(!memoise::has_cache(load_player_stats)(), "Cache was not cleared!")
+  expect_message(.clear_cache(), "nflreadr function cache cleared!")
+
+  expect(!memoise::has_cache(rds_from_url)("https://raw.githubusercontent.com/nflverse/nfldata/master/data/draft_picks.rds"), "Cache was not cleared!")
 })
 
 test_that("load_depth_charts", {
@@ -190,6 +196,23 @@ test_that("load_draft_picks", {
   expect_lt(nrow(picks_2020), 260)
 
   expect_error(load_draft_picks("2020"))
+})
+
+test_that("load_combine", {
+
+  skip_on_cran()
+  skip_if_offline("github.com")
+
+  combine <- load_combine()
+  combine_2020 <- load_combine(2020)
+
+  expect_s3_class(combine, "tbl_df")
+  expect_s3_class(combine_2020, "tbl_df")
+
+  expect_gt(nrow(combine), 7000)
+  expect_gte(nrow(combine_2020), 337)
+
+  expect_error(load_combine("2020"))
 })
 
 test_that("load_pfr_passing", {

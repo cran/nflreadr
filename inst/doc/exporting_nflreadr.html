@@ -153,7 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="using-progressr-with-from_url-functions" class="section level2">
 <h2>Using progressr with from_url functions</h2>
-<p>The <code>from_url</code> family of functions are designed to be compatible with using progressr updates. Here’s an example, adapted from the <code>load_rosters()</code> source code:</p>
+<p>The <code>from_url</code> family of functions can be adapted with the <code>progressively()</code> function decorator to signal progress. Here’s an example, adapted from the <code>load_rosters()</code> source code:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>load_rosters <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">seasons =</span> <span class="dv">1999</span><span class="sc">:</span><span class="dv">2020</span>){</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a progressor function inside your function that knows how many &quot;steps&quot; there will be</span></span>
@@ -164,11 +164,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;https://github.com/nflverse/nflfastR-roster/raw/master/data/seasons/roster_&quot;</span>,</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    seasons, <span class="st">&quot;.rds&quot;</span>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Pass the progressor to the &quot;p&quot; argument of rds_from_url in a loop or map</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_dfr</span>(urls, rds_from_url, <span class="at">p =</span> p)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Use `progressively()` to wrap the existing function rds_from_url and </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># call the `p()` progressor function as a signal immediately after each iteration</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_dfr</span>(urls, <span class="fu">progressively</span>(rds_from_url,p))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>This will cause p() to execute once for each rds_from_url call, effectively “signalling” progress.</p>
 <p>In order to receive progress updates, the user must wrap the function (load_rosters, in this case) with <code>progressr::with_progress()</code> as shown here:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>progressr<span class="sc">::</span><span class="fu">with_progress</span>(<span class="fu">load_rosters</span>(<span class="dv">2010</span><span class="sc">:</span><span class="dv">2020</span>))</span></code></pre></div>

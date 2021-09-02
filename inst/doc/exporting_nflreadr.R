@@ -17,8 +17,10 @@
 #      "https://github.com/nflverse/nflfastR-roster/raw/master/data/seasons/roster_",
 #      seasons, ".rds")
 #  
-#    # Pass the progressor to the "p" argument of rds_from_url in a loop or map
-#    out <- purrr::map_dfr(urls, rds_from_url, p = p)
+#    # Use `progressively()` to wrap the existing function rds_from_url and
+#    # call the `p()` progressor function as a signal immediately after each iteration
+#  
+#    out <- purrr::map_dfr(urls, progressively(rds_from_url,p))
 #  
 #    return(out)
 #  }
