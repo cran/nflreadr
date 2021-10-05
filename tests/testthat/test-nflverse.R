@@ -159,7 +159,7 @@ test_that("load_espn_qbr", {
   expect_s3_class(qbr_default, "tbl_df")
   expect_s3_class(qbr_nfl_weekly, "tbl_df")
   expect_s3_class(qbr_cfb_season, "tbl_df")
-  expect_gt(nrow(qbr_default), 30)
+  # expect_gt(nrow(qbr_default), 30)
   expect_gt(nrow(qbr_nfl_weekly), 7500)
   expect_gt(nrow(qbr_cfb_season), 200)
 })
@@ -227,6 +227,23 @@ test_that("load_pfr_passing", {
   expect_s3_class(passing, "tbl_df")
 
   expect_gt(nrow(passing), 200)
+})
+
+test_that("load_pfr_passing", {
+
+  skip_on_cran()
+  skip_if_offline("github.com")
+
+  expect_error(load_pfr_advstats("2020"))
+
+  pass <- load_pfr_advstats(seasons = 2020, stat_type = "pass")
+  rush <- load_pfr_advstats(seasons = TRUE, stat_type = "rush")
+
+  expect_s3_class(pass, "tbl_df")
+  expect_s3_class(rush, "tbl_df")
+
+  expect_gt(nrow(pass), 600)
+  expect_gt(nrow(rush), 5000)
 })
 
 test_that("load_snap_counts", {

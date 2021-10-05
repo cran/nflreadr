@@ -26,3 +26,14 @@ choose_loader <- function(type) {
     "qs" = qs_from_url
   )
 }
+
+#' @keywords internal
+"_PACKAGE"
+
+#' @importFrom Rcpp getRcppVersion
+#' @importFrom RcppParallel defaultNumThreads
+NULL
+
+`%c%` <- function(x,y){
+  ifelse(!is.na(x),x,y)
+}

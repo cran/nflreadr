@@ -53,4 +53,3 @@ test_that("progress updates in raw_from_url work", {
   expect_true(is.list(load))
   expect_true(is.raw(unlist(load)))
 })
-

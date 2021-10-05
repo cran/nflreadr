@@ -1,3 +1,19 @@
+# nflreadr 1.1.1
+
+## New Data and Functions
+- `clean_player_names()` and `clean_team_abbrs()` added - these help standardise player names and team abbreviations based on internal dictionaries. 
+- `load_ff_rankings()` now has a `type` argument and can return `"draft"` or `"week"` rankings from the DynastyProcess/data repo.
+- `clean_homeaway()` converts a dataframe of games with columns prefixed with `home_` and `away_` to a dataframe of teams, renaming to `team_` and `opponent_` and doubling the rows.
+- Added `load_pfr_advstats()` which provides pass, rush, rec, def additional data for each week.
+
+## Bug Fixes
+
+- Add Rcpp and RcppParallel minimum dependencies to fix qs issues.
+- Added a message that reminds the user of the caching behavior. The message will be displayed once every 8 hours if the session is interactive.
+- Adjusted file location of snap count data 
+
+---
+
 # nflreadr 1.1.0
 
 This release makes some backend changes for speed, reduced dependency footprint, and ease of maintenance. 
