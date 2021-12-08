@@ -1,3 +1,13 @@
+# nflreadr 1.1.2
+
+## New Functions
+
+- `nflverse_sitrep()` and `ffverse_sitrep()` give a minimal overview of the package dependencies
+- Minimum R version bumped to R 3.6.0 - this is the minimum version required to read the [current RDS file-version](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html). 
+- `_sitrep()` functions receive a small print-related bugfix and colouring improvement.
+
+---
+
 # nflreadr 1.1.1
 
 ## New Data and Functions
@@ -11,6 +21,8 @@
 - Add Rcpp and RcppParallel minimum dependencies to fix qs issues.
 - Added a message that reminds the user of the caching behavior. The message will be displayed once every 8 hours if the session is interactive.
 - Adjusted file location of snap count data 
+
+Thank you to [&#x0040;ajreinhard](https://github.com/ajreinhard), [&#x0040;brunomioto](https://github.com/brunomioto), [&#x0040;jthomasmock](https://github.com/jthomasmock), [&#x0040;mrcaseb](https://github.com/mrcaseb), [&#x0040;SCasanova](https://github.com/SCasanova), and [&#x0040;tanho63](https://github.com/tanho63) for their feedback and contributions to this package!
 
 ---
 

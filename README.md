@@ -8,7 +8,7 @@
 [![CRAN
 status](https://img.shields.io/cran/v/nflreadr?style=flat-square&logo=R&label=CRAN)](https://CRAN.R-project.org/package=nflreadr)
 [![Codecov test
-coverage](https://img.shields.io/codecov/c/github/nflverse/nflreadr?label=codecov&style=flat-square&logo=codecov)](https://codecov.io/gh/nflverse/nflreadr?branch=main)
+coverage](https://img.shields.io/codecov/c/github/nflverse/nflreadr?label=codecov&style=flat-square&logo=codecov)](https://app.codecov.io/gh/nflverse/nflreadr?branch=main)
 [![Dev
 status](https://img.shields.io/github/r-package/v/nflverse/nflreadr/main?label=dev%20version&style=flat-square&logo=github)](https://nflreadr.nflverse.com/)
 [![Lifecycle:
@@ -16,11 +16,11 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg?sty
 [![R build
 status](https://img.shields.io/github/workflow/status/nflverse/nflreadr/R-CMD-check?label=R%20check&style=flat-square&logo=github)](https://github.com/nflverse/nflreadr/actions)
 [![nflverse
-discord](https://img.shields.io/discord/591914197219016707.svg?color=5865F2&label=nflverse%20discord&logo=discord&logoColor=5865F2&style=flat-square)](https://discord.com/invite/5Er2FBnnQa)
+discord](https://img.shields.io/discord/789805604076126219?color=7289da&label=nflverse%20discord&logo=discord&logoColor=fff&style=flat-square)](https://discord.com/invite/5Er2FBnnQa)
 
 <!-- badges: end -->
 
-nflreadr is a low-level package for downloading data from nflverse
+nflreadr is a minimal package for downloading data from nflverse
 repositories. It includes caching, optional progress updates, and data
 dictionaries.
 
@@ -87,6 +87,10 @@ page](https://nflreadr.nflverse.com/reference/index.html).
 This data is maintained by the nflverse project team and is primarily
 automated via GitHub Actions. You can check the status and schedules
 page here: <https://github.com/nflverse/status>
+
+For Python access to nflverse data, please check out
+[nfl-data-py](https://pypi.org/project/nfl-data-py/) which is maintained
+by Cooper Adams.
 
 ## Configuration
 
