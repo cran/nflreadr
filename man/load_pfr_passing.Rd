@@ -23,9 +23,9 @@ starting with the 2019 season.
 
 }
 \seealso{
-\url{https://www.pro-football-reference.com/years/2020/passing_advanced.htm}
+\url{https://nflreadr.nflverse.com/articles/dictionary_pfr_passing.html} for the web data dictionary
 
-\code{\link{dictionary_pfr_passing}} for the data dictionary
+\code{\link{dictionary_pfr_passing}} for the data dictionary as bundled within the package
 
-\url{https://nflreadr.nflverse.com/articles/dictionary_pfr_passing.html}
+Issues with this data should be filed here: \url{https://github.com/nflverse/pfr_scrapR}
 }

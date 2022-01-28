@@ -30,6 +30,14 @@
 #' @seealso <https://nflreadr.nflverse.com/articles/dictionary_ff_rankings.html>
 "dictionary_ff_rankings"
 
+#' Data Dictionary: Expected Fantasy Points
+#'
+#' A dataframe containing the data dictionary for [`load_ff_opportunity()`]
+#'
+#' @seealso `vignette("Data Dictionary - Expected Fantasy Points")`
+#' @seealso <https://nflreadr.nflverse.com/articles/dictionary_ff_opportunity.html>
+"dictionary_ff_opportunity"
+
 #' Data Dictionary: Rosters
 #'
 #' A dataframe containing the data dictionary for [`load_rosters()`]
@@ -78,6 +86,46 @@
 #' @seealso `vignette("Data Dictionary - Snap Counts")`
 #' @seealso <https://nflreadr.nflverse.com/articles/dictionary_snap_counts.html>
 "dictionary_snap_counts"
+
+#' Data Dictionary: ESPN QBR
+#'
+#' A dataframe containing the data dictionary for [`load_espn_qbr()`]
+#'
+#' @seealso `vignette("Data Dictionary - ESPN QBR")`
+#' @seealso <https://nflreadr.nflverse.com/articles/dictionary_espn_qbr.html>
+"dictionary_espn_qbr"
+
+#' Data Dictionary: Combine
+#'
+#' A dataframe containing the data dictionary for [`load_combine()`]
+#'
+#' @seealso `vignette("Data Dictionary - Combine")`
+#' @seealso <https://nflreadr.nflverse.com/articles/dictionary_combine.html>
+"dictionary_combine"
+
+#' Data Dictionary: Injuries
+#'
+#' A dataframe containing the data dictionary for [`load_injuries()`]
+#'
+#' @seealso `vignette("Data Dictionary - Injuries")`
+#' @seealso <https://nflreadr.nflverse.com/articles/dictionary_injuries.html>
+"dictionary_injuries"
+
+#' Data Dictionary: Depth Charts
+#'
+#' A dataframe containing the data dictionary for [`load_depth_charts()`]
+#'
+#' @seealso `vignette("Data Dictionary - Depth Charts")`
+#' @seealso <https://nflreadr.nflverse.com/articles/dictionary_depth_charts.html>
+"dictionary_depth_charts"
+
+#' Data Dictionary: Trades
+#'
+#' A dataframe containing the data dictionary for [`load_trades()`]
+#'
+#' @seealso `vignette("Data Dictionary - Trades")`
+#' @seealso <https://nflreadr.nflverse.com/articles/dictionary_trades.html>
+"dictionary_trades"
 
 #' Alternate player name mappings
 #'

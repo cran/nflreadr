@@ -6,16 +6,19 @@
 \usage{
 load_pfr_advstats(
   seasons = most_recent_season(),
-  stat_type = c("pass", "rush", "rec", "def")
+  stat_type = c("pass", "rush", "rec", "def"),
+  summary_level = c("week", "season")
 )
 }
 \arguments{
 \item{seasons}{a numeric vector specifying what seasons to return, if \code{TRUE} returns all available data}
 
 \item{stat_type}{one of "pass", "rush", "rec", "def"}
+
+\item{summary_level}{one of "week" (default) or "season" - some data is only available at the season level}
 }
 \value{
-A tibble of week-level player statistics provided by Pro Football Reference to supplement data in nflverse
+A tibble of player statistics provided by Pro Football Reference that supplements data in nflverse
 }
 \description{
 Loads player level season stats provided by Pro Football Reference
@@ -28,5 +31,9 @@ starting with the 2018 season, primarily to augment existing nflverse data.
 
 }
 \seealso{
+\url{https://nflreadr.nflverse.com/articles/dictionary_pfr_passing.html} for the web data dictionary
+
 \url{https://www.pro-football-reference.com/years/2021/passing_advanced.htm}
+
+Issues with this data should be filed here: \url{https://github.com/nflverse/pfr_scrapR}
 }
