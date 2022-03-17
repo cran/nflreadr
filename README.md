@@ -12,7 +12,7 @@ coverage](https://img.shields.io/codecov/c/github/nflverse/nflreadr?label=codeco
 [![Dev
 status](https://img.shields.io/github/r-package/v/nflverse/nflreadr/main?label=dev%20version&style=flat-square&logo=github)](https://nflreadr.nflverse.com/)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg?style=flat-square)](https://lifecycle.r-lib.org/articles/stages.html)
+stable](https://img.shields.io/badge/lifecycle-stable-green.svg?style=flat-square)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R build
 status](https://img.shields.io/github/workflow/status/nflverse/nflreadr/R-CMD-check?label=R%20check&style=flat-square&logo=github)](https://github.com/nflverse/nflreadr/actions)
 [![nflverse
@@ -23,6 +23,12 @@ discord](https://img.shields.io/discord/789805604076126219?color=7289da&label=nf
 nflreadr is a minimal package for downloading data from nflverse
 repositories. It includes caching, optional progress updates, and data
 dictionaries.
+
+Please note that nflverse data repositories have been reorganized and
+pushed towards the
+[nflverse-data](https://github.com/nflverse/nflverse-data) repo, and
+v1.2.0+ is the minimum version that supports this change. We encourage
+all users to upgrade to this version immediately.
 
 For Python access to nflverse data, please check out
 [nfl-data-py](https://pypi.org/project/nfl-data-py/) - maintained by
@@ -79,28 +85,28 @@ load_pbp(2020)
 Data accessed by this package is stored on GitHub and can typically be
 found in one of the following repositories:
 
--   [nflverse/nflfastR-data](https://github.com/nflverse/nflfastR-data)
+-   [nflverse/nflverse-data](https://github.com/nflverse/nflverse-data)
 -   [nflverse/nfldata](https://github.com/nflverse/nfldata)
--   [nflverse/nflfastR-roster](https://github.com/nflverse/nflfastR-roster)
 -   [nflverse/espnscrapeR-data](https://github.com/nflverse/espnscrapeR-data)
 -   [dynastyprocess/data](https://github.com/dynastyprocess/data)
+-   [ffverse/ffopportunity](https://github.com/ffverse/ffopportunity)
 
 For a full list of functions, please see the [reference
 page](https://nflreadr.nflverse.com/reference/index.html).
 
 This data is maintained by the nflverse project team and is primarily
 automated via GitHub Actions. You can check the status and schedules
-page here: <https://github.com/nflverse/status>
+page here: <https://github.com/nflverse/nflverse-data>
 
 ## Configuration
 
 The following options help configure default `nflreadr` behaviours.
 
 ``` r
-options(nflreadr.cache) 
-# one of "memory", "filesystem", or "off"
 options(nflreadr.verbose) 
 # TRUE/FALSE to silence messages such as cache warnings
+options(nflreadr.cache) 
+# one of "memory", "filesystem", or "off"
 options(nflreadr.prefer) 
 # one of "qs" or "rds"
 ```
