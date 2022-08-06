@@ -1,3 +1,49 @@
+# nflreadr 1.3.0
+
+This release introduces several new data functions, some new utilities, and an array of data/function updates. 
+
+## New Data!
+
+- `load_participation()` returns new play-level information about what players are on the field, how many players are in the box, and what formation the offense is using. Data from NGS starting 2016 and onward  
+- `load_contracts()` downloads (historical) player contracts from [OverTheCap.com](https://overthecap.com/contract-history)
+- `load_players()` returns player-level information and is the new recommended source (over rosters) for IDs, positions, birthdates etc.
+- `load_rosters_weekly()` provides week-by-week team rosters dating back to 2002.
+- `load_officials()` returns game-level information about which officials are assigned to specific games.
+
+## New Functions! 
+
+- `nflverse_download()` downloads all files attached to specified/all releases to a local folder. This facilitates something like `arrow::open_dataset()` for reading files locally.
+- `nflverse_releases()` lists all releases that can be loaded through `nflverse_download()`
+- `load_from_url()` exposes a new utility function for loading any csv, rds, qs, parquet URL to memory. 
+
+## Function Updates!
+
+- `load_draft_picks()` now has the rest of the career stat fields from PFR 
+- `*sitrep()` functions now report package-specific options that are set.
+- `get_current_week()` helper to get the current nfl season week 
+- `load_rosters()` now provides season-level rosters dating back to 1920. 
+
+## Other bugfixes
+
+- moved rbindlist to a helper that manages attributes better
+- update `dictionary_snap_counts` and `dictionary_schedules` with some missing fields 
+- rewrite from_url error messages to use cli and improve usefulness
+- bump minimum rlang version to 1.0.0
+- add piggyback suggested dependency
+- Export old class to support S4/DBI/`nflfastR::update_db()` as if it were a tibble
+- Fix exportOldClass so that it supports only data.frame stuff? we have no idea,,,
+- `options(nflreadr.prefer)` defaults to rds now since qs is no longer a required dependency
+- `clean_player_names()` now also removes commas (after optionally using them for `convert_lastfirst`) 
+- `clean_player_names()` now also removes all caps suffixes
+- dictionary updates: return labelled.
+- `.sitrep()` exits nicely if no packages are to be investigated. #114 
+- refactored all the loaders to use `load_from_url` as primary
+- fixed broken example in `load_ff_opportunity()` documentation. #117
+
+Thank you to [&#x0040;albtree](https://github.com/albtree), [&#x0040;john-b-edwards](https://github.com/john-b-edwards), [&#x0040;mrcaseb](https://github.com/mrcaseb), [&#x0040;pranavrajaram](https://github.com/pranavrajaram), [&#x0040;tanho63](https://github.com/tanho63), and [&#x0040;tpenney89](https://github.com/tpenney89) for their contributions and feedback on this release!
+
+---
+
 # nflreadr 1.2.0
 
 This release updates all nflverse URLs to use the new [nflverse-data repository](https://github.com/nflverse/nflverse-data) releases, as well as provides improved pretty-printing methods that tell you when the data was last updated. 

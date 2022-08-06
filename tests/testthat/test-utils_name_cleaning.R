@@ -25,6 +25,27 @@ test_that("cleaning player names", {
     lower,
     c("mitchell trubisky", "tutu atwell","ezekiel elliott", "elijah moore", "aj green", "odell beckham"))
 
+  otc <- c("Willie Gay, Jr.", "Jerry Rice, Jr.")
+
+  otc_clean <- clean_player_names(otc, convert_lastfirst = FALSE)
+
+  expect_equal(
+    otc_clean,
+    c("Willie Gay", "Jerry Rice")
+  )
+
+})
+
+test_that("all caps names with suffix are cleaned correctly", {
+
+  p <- c("LENO JR., CHARLES")
+
+  lower <- clean_player_names(p, lowercase = TRUE, use_name_database = TRUE, convert_lastfirst = TRUE)
+  allcaps <- clean_player_names(p, lowercase = FALSE, use_name_database = TRUE, convert_lastfirst = TRUE)
+
+  expect_equal(lower, c("charles leno"))
+  expect_equal(allcaps, c("CHARLES LENO"))
+
 })
 
 test_that("cleaning home and away columns",{

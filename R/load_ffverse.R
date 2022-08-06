@@ -6,7 +6,9 @@
 #'
 #' @examples
 #' \donttest{
+#' try({ # prevents cran errors
 #' load_ff_playerids()
+#' })
 #' }
 #'
 #' @seealso <https://nflreadr.nflverse.com/articles/dictionary_ff_playerids.html> for the web data dictionary
@@ -14,10 +16,10 @@
 #'
 #' @export
 load_ff_playerids <- function() {
-  out <- rds_from_url("https://github.com/dynastyprocess/data/raw/master/files/db_playerids.rds")
-  class(out) <- c("nflverse_data","tbl_df","tbl","data.table","data.frame")
-  attr(out,"nflverse_type") <- "(ffverse) player IDs"
-  out
+  out <- load_from_url("https://github.com/dynastyprocess/data/raw/master/files/db_playerids.rds",
+                       nflverse = TRUE,
+                       nflverse_type = "(ffverse) player IDs")
+  return(out)
 }
 
 #' Load Latest FantasyPros Rankings
@@ -30,7 +32,9 @@ load_ff_playerids <- function() {
 #'
 #' @examples
 #' \donttest{
+#' try({ # prevents cran errors
 #' load_ff_rankings()
+#' })
 #' }
 #'
 #' @seealso <https://nflreadr.nflverse.com/articles/dictionary_ff_rankings.html> for the web data dictionary
@@ -49,10 +53,8 @@ load_ff_rankings <- function(type = c("draft", "week", "all")){
     all = "https://github.com/dynastyprocess/data/master/files/db_fpecr.rds"
   )
 
-  out <- rds_from_url(url)
-  class(out) <- c("nflverse_data","tbl_df","tbl","data.table","data.frame")
-  attr(out,"nflverse_type") <- "FP expert rankings"
-  out
+  out <- load_from_url(url, nflverse = TRUE, nflverse_type = "FP expert rankings")
+  return(out)
 }
 
 #' Load Expected Fantasy Points
@@ -65,9 +67,9 @@ load_ff_rankings <- function(type = c("draft", "week", "all")){
 #'
 #' @examples
 #' \donttest{
-#'   try({
+#'   try({ # prevents cran errors
 #'   load_ff_opportunity()
-#'   load_ff_opportunity(seasons = 2021, type = "pbp_pass", version = "v1.0.0")
+#'   load_ff_opportunity(seasons = 2021, stat_type = "pbp_pass", model_version = "v1.0.0")
 #'   })
 #' }
 #'
@@ -93,16 +95,8 @@ load_ff_opportunity <- function(seasons = most_recent_season(),
   stat_type <- rlang::arg_match0(stat_type, c("weekly","pbp_pass","pbp_rush"))
   model_version <- rlang::arg_match0(model_version, c("latest","v1.0.0"))
 
-  urls <- paste0(
-    "https://github.com/ffverse/ffopportunity/releases/download/",
-    paste0(model_version,"-data/ep_"), stat_type, "_", seasons, ".rds")
+  urls <- glue::glue("https://github.com/ffverse/ffopportunity/releases/download/{model_version}-data/ep_{stat_type}_{seasons}.rds")
 
-  p <- NULL
-  if (is_installed("progressr")) p <- progressr::progressor(along = urls)
-
-  out <- lapply(urls, progressively(rds_from_url, p))
-  out <- data.table::rbindlist(out, use.names = TRUE)
-  class(out) <- c("nflverse_data","tbl_df","tbl","data.table","data.frame")
-  attr(out,"nflverse_type") <- glue::glue("ffopportunity expected points: {stat_type}")
-  out
+  out <- load_from_url(urls, nflverse = TRUE, nflverse_type = glue::glue("ffopportunity expected points: {stat_type}"))
+  return(out)
 }
