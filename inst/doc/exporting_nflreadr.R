@@ -14,7 +14,7 @@
 #  
 #    # Form the URLs to pass into rds_from_url
 #    urls <- paste0(
-#      "https://github.com/nflverse/nflfastR-roster/raw/master/data/seasons/roster_",
+#      "https://github.com/nflverse/nflverse-rosters/raw/master/data/seasons/roster_",
 #      seasons, ".rds")
 #  
 #    # Use `progressively()` to wrap the existing function rds_from_url and

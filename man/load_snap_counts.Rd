@@ -20,7 +20,7 @@ A tibble of game-level snap counts provided by Pro Football Reference.
 }
 \description{
 Loads game level snap counts stats provided by Pro Football Reference
-starting with the 2013 season.
+starting with the 2012 season.
 }
 \examples{
 \donttest{
@@ -35,5 +35,5 @@ starting with the 2013 season.
 
 \code{\link{dictionary_snap_counts}} for the data dictionary as bundled within the package
 
-Issues with this data should be filed here: \url{https://github.com/nflverse/pfr_scrapR}
+Issues with this data should be filed here: \url{https://github.com/nflverse/nflverse-pfr}
 }

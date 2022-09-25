@@ -1,4 +1,3 @@
-context("nflverse load functions")
 test_that("load_pbp", {
 
   skip_on_cran()
@@ -308,7 +307,6 @@ test_that("load_officials", {
 
 ## NEW LOAD FUNCTIONS GO ABOVE THIS LINE ##
 
-context("print method")
 test_that("nflverse_data print method works", {
 
   skip_on_cran()
@@ -324,7 +322,6 @@ test_that("nflverse_data print method works", {
 
 })
 
-context("caching/cache-clearing")
 test_that("Cache clearing works",{
 
   skip_on_cran()
@@ -337,4 +334,43 @@ test_that("Cache clearing works",{
   expect_message(.clear_cache(), "nflreadr function cache cleared!")
 
   expect(!memoise::has_cache(csv_from_url)("https://github.com/nflverse/nflverse-data/releases/download/draft_picks/draft_picks.csv"), "Cache was not cleared!")
+})
+
+test_that("nflverse_game_id works", {
+
+  # test single value input
+  expect_equal(nflverse_game_id(2022, 2, "LAC", "KC"), "2022_02_LAC_KC")
+
+  # test vector input
+  expect_equal(
+    nflverse_game_id(rep(2022, 2), c(2,13), c("LAC", "LAC"), c("KC", "LV")),
+    c("2022_02_LAC_KC", "2022_13_LAC_LV")
+  )
+
+  # error on season outside range
+  expect_error(
+    nflverse_game_id(1998, 2, "LAC", "KC"), "must be between 1999"
+  )
+
+  # error on week outside range
+  expect_error(
+    nflverse_game_id(2022, 30, "LAC", "KC"), "must be between 1 and"
+  )
+
+  # error on away team
+  expect_error(
+    nflverse_game_id(2022, 2, "LACC", "KC"), "is not a valid `away` abbreviation"
+  )
+
+  # error on home team
+  expect_error(
+    nflverse_game_id(2022, 2, "LAC", "KKC"), "is not a valid `home` abbreviation"
+  )
+
+  # warn on non smart input
+  expect_warning(
+    nflverse_game_id(2022, 2, rep("LAC", 2), rep("KC", 3)),
+    "Arguments should be of of length one or of length"
+  )
+
 })

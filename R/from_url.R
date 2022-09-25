@@ -50,7 +50,7 @@ load_from_url <- function(url, ..., seasons = TRUE, nflverse = FALSE){
 #' @examples
 #' \donttest{
 #' try({ # prevents cran errors
-#'   rds_from_url("https://github.com/nflverse/nfldata/raw/master/data/games.rds")
+#'   rds_from_url("https://github.com/nflverse/nflverse-data/releases/download/test/combines.rds")
 #' })
 #' }
 rds_from_url <- function(url) {
@@ -82,7 +82,7 @@ rds_from_url <- function(url) {
 #' @examples
 #' \donttest{
 #' try({ # prevents cran errors
-#'   csv_from_url("https://github.com/nflverse/nfldata/raw/master/data/games.csv")
+#'   csv_from_url("https://github.com/nflverse/nflverse-data/releases/download/test/combines.csv")
 #' })
 #' }
 csv_from_url <- function(...){
@@ -103,10 +103,12 @@ csv_from_url <- function(...){
 #'
 #' @examples
 #' \donttest{
+#' try({ # prevents CRAN errors
 #' head(raw_from_url(
-#'   "https://github.com/nflverse/nflverse-data/releases/download/player_stats/player_stats.parquet"
+#'   "https://github.com/nflverse/nflverse-data/releases/download/test/combines.rds"
 #'   ),
 #' 50)
+#' })
 #' }
 raw_from_url <- function(url){
   cache_message()
@@ -204,50 +206,6 @@ qs_from_url <- function(url){
 
   data.table::setDT(content)
   return(content)
-}
-
-#' Progressively
-#'
-#' This function helps add progress-reporting to any function - given function `f()` and progressor `p()`, it will return a new function that calls `f()` and then (on-exiting) will call `p()` after every iteration.
-#'
-#' This is inspired by purrr's `safely`, `quietly`, and `possibly` function decorators.
-#'
-#' @param f a function to add progressr functionality to.
-#' @param p a progressor function as created by `progressr::progressor()`
-#'
-#' @examples
-#'
-#' \donttest{
-#' try({ # prevents cran errors
-#'
-#' read_rosters <- function(){
-#'   urls <- c("https://github.com/nflverse/nflfastR-roster/raw/master/data/seasons/roster_2020.csv",
-#'             "https://github.com/nflverse/nflfastR-roster/raw/master/data/seasons/roster_2021.csv")
-#'
-#'   p <- progressr::progressor(along = urls)
-#'   lapply(urls, progressively(read.csv, p))
-#' }
-#'
-#' progressr::with_progress(read_rosters())
-#'
-#' })
-#' }
-#'
-#' @return a function that does the same as `f` but it calls `p()` after iteration.
-#'
-#' @seealso <https://nflreadr.nflverse.com/articles/exporting_nflreadr.html> for vignette on exporting nflreadr in packages
-#'
-#' @export
-progressively <- function(f, p = NULL){
-  if(!is.null(p) && !inherits(p, "progressor")) stop("`p` must be a progressor function!")
-  if(is.null(p)) p <- function(...) NULL
-  force(f)
-
-  function(...){
-    on.exit(p("loading..."))
-    f(...)
-  }
-
 }
 
 cache_message <- function(){

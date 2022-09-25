@@ -27,11 +27,20 @@ most_recent_season <- function(roster = FALSE) {
 #' @export
 get_latest_season <- most_recent_season
 
+#' @rdname latest_season
+#' @export
+get_current_season <- most_recent_season
+
+
 #' Get Current Week
 #'
 #' A helper function that returns the upcoming NFL regular season week based on either
 #' the nflverse schedules file (as found in `load_schedules()`)
 #' or some date-based heuristics (number of weeks since the first Monday of September)
+#'
+#' Note that the date heuristic will count a new week starting on Thursdays, while
+#' the schedule-based method will count a new week after the last game of the previous
+#' week, e.g. after MNF is completed. Tan and Ben argued for a while about this.
 #'
 #' @param use_date a logical to determine whether to use date-based heuristics to
 #' determine current week, default FALSE (i.e. uses schedule file)
