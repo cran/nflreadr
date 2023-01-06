@@ -118,17 +118,20 @@ clean_player_names <- function(player_name,
 #'
 #' @examples
 #' \donttest{
-#' # creating a small example dataframe!
-#' cols <- c("season", "week", "home_team", "home_score",
-#'           "away_team", "away_score", "result", "spread_line")
+#' # a small example dataframe
+#' s <- data.frame(
+#'    game_id = c("2020_20_TB_GB", "2020_20_BUF_KC", "2020_21_KC_TB"), 
+#'    game_type = c("CON", "CON", "SB"), 
+#'    away_team = c("TB", "BUF", "KC"), 
+#'    away_score = c(31L, 24L, 9L), 
+#'    home_team = c("GB", "KC", "TB"), 
+#'    home_score = c(26L, 38L, 31L), 
+#'    location = c("Home", "Home", "Neutral"), 
+#'    result = c(-5L, 14L, 22L), 
+#'    spread_line = c(3, 3, -3)
+#'  )
 #'
-#' x <- as.data.frame(load_schedules(2020))
-#' x <- utils::head(x[cols])
-#'
-#' # how the data looks like
-#' x
-#'
-#' clean_homeaway(x, invert = c("result","spread_line"))
+#' clean_homeaway(s, invert = c("result","spread_line"))
 #' }
 #' @return a dataframe with one row per team (twice as long as the input dataframe)
 #' @export
@@ -145,18 +148,48 @@ clean_homeaway <- function(dataframe, invert = NULL){
   names(home) <- gsub(x = names(home), pattern = "^away_", replacement = "opponent_")
   names(home) <- gsub(x = names(home), pattern = "team_team", replacement = "team")
   names(home) <- gsub(x = names(home), pattern = "opponent_team", replacement = "opponent")
-  home$location <- "home"
+
+  # The location variable depends on if there is location in input. If yes, preserve
+  # "neutral" otherwise just set to home/away
+  home$location <- if ("location" %in% names(home)){
+    data.table::fifelse(home$location == "Neutral", "neutral", "home", "home")
+  } else {
+    "home"
+  }
 
   names(away) <- gsub(x = names(away), pattern = "^away_", replacement = "team_")
   names(away) <- gsub(x = names(away), pattern = "^home_", replacement = "opponent_")
   names(away) <- gsub(x = names(away), pattern = "team_team", replacement = "team")
   names(away) <- gsub(x = names(away), pattern = "opponent_team", replacement = "opponent")
-  away$location <- "away"
+
+  # The location variable depends on if there is location in input. If yes, preserve
+  # "neutral" otherwise just set to home/away
+  away$location <- if ("location" %in% names(away)){
+    data.table::fifelse(away$location == "Neutral", "neutral", "away", "away")
+  } else {
+    "away"
+  }
 
   if(!is.null(invert)) data.table::setDF(away); away[,c(invert)] <- away[,c(invert)] * -1
 
   .row_order <- NULL
   out <- data.table::rbindlist(list(home,away), use.names = TRUE)[order(.row_order),-c(".row_order")]
-  class(out) <- c("tbl_df", "tbl", "data.table", "data.frame")
+
+  # we want to preserve the input class(es)
+  class(out) <- class(dataframe)
+
+  # input attributes shall be presrved mostly so we gotta do some acrobatic
+  # and combine input attributes with new attributes
+  df_attrs <- attributes(dataframe)
+  df_attrs <- df_attrs[setdiff(names(df_attrs), c("row.names","names",".internal.selfref"))]
+  out_attrs <- attributes(out)[c("names","row.names",".internal.selfref")]
+  attributes(out) <- c(out_attrs, df_attrs)
+
+  # the input may or may not have the nflverse_type attribute
+  # if it is available, we'll add "by team" to make clear it's a different
+  # nflverse_type
+  if ("nflverse_type" %in% names(attributes(out))){
+    attr(out, "nflverse_type") <- paste(attr(out, "nflverse_type"), "by team")
+  }
   out
 }
