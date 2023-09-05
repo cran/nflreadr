@@ -20,7 +20,7 @@ test_that("load_participation", {
   skip_if_offline("github.com")
 
   participation <- load_participation(2019)
-  pbp_participation <- load_participation(2020,include_pbp = TRUE,file_type = "qs")
+  pbp_participation <- load_participation(2020,include_pbp = TRUE, file_type = "parquet")
 
   expect_s3_class(participation, "nflverse_data")
   expect_s3_class(pbp_participation, "nflverse_data")
@@ -42,17 +42,20 @@ test_that("load_player_stats", {
   ps_all <- load_player_stats(seasons = TRUE)
 
   kick <- load_player_stats(2020, stat_type = "kicking")
+  defense <- load_player_stats(2022, stat_type = "defense")
 
   expect_s3_class(ps, "nflverse_data")
   expect_s3_class(ps_2020, "nflverse_data")
   expect_s3_class(ps_csv, "nflverse_data")
   expect_s3_class(ps_all, "nflverse_data")
   expect_s3_class(kick, "nflverse_data")
+  expect_s3_class(defense, "nflverse_data")
 
   expect_gt(nrow(ps_2020), 5000)
   expect_gt(nrow(ps_csv), 5000)
   expect_gt(nrow(ps_all), 110000)
   expect_gt(nrow(kick), 500)
+  expect_gt(nrow(defense), 9800)
 })
 
 test_that("load_schedules", {
@@ -109,7 +112,7 @@ test_that("load_ngs", {
   skip_if_offline("github.com")
 
   ngs_passing <- load_nextgen_stats()
-  ngs_receiving <- load_nextgen_stats(seasons = 2019:2020, stat_type = "receiving", file_type = "qs")
+  ngs_receiving <- load_nextgen_stats(seasons = 2019:2020, stat_type = "receiving", file_type = "parquet")
   ngs_rushing <- load_nextgen_stats(seasons = 2020, stat_type = "rushing")
 
   expect_s3_class(ngs_passing, "nflverse_data")
@@ -307,6 +310,17 @@ test_that("load_officials", {
   expect_gt(nrow(officials), 10000)
 })
 
+test_that("load_ftn_charting", {
+
+  skip_on_cran()
+  skip_if_offline("github.com")
+
+  ftn_charting <- load_ftn_charting(2022)
+
+  expect_s3_class(ftn_charting, "nflverse_data")
+  expect_gt(nrow(ftn_charting), 40000)
+})
+
 
 ## NEW LOAD FUNCTIONS GO ABOVE THIS LINE ##
 
@@ -350,6 +364,12 @@ test_that("nflverse_game_id works", {
     c("2022_02_LAC_KC", "2022_13_LAC_LV")
   )
 
+  # allow old names (SD) and clean team abbreviations (LAR -> LA)
+  expect_equal(
+    nflverse_game_id(rep(2022, 2), c(2,13), c("SD", "LAC"), c("KC", "LAR")),
+    c("2022_02_SD_KC", "2022_13_LAC_LA")
+  )
+
   # error on season outside range
   expect_error(
     nflverse_game_id(1998, 2, "LAC", "KC"), "must be between 1999"
@@ -362,12 +382,12 @@ test_that("nflverse_game_id works", {
 
   # error on away team
   expect_error(
-    nflverse_game_id(2022, 2, "LACC", "KC"), "is not a valid `away` abbreviation"
+    nflverse_game_id(2022, 2, rep("LACC",2), "KC"), "invalid `away` abbreviation"
   )
 
   # error on home team
   expect_error(
-    nflverse_game_id(2022, 2, "LAC", "KKC"), "is not a valid `home` abbreviation"
+    nflverse_game_id(2022, 2, "LAC", rep("KKC", 2)), "invalid `home` abbreviation"
   )
 
   # warn on non smart input

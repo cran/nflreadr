@@ -6,14 +6,14 @@
 \usage{
 load_player_stats(
   seasons = most_recent_season(),
-  stat_type = c("offense", "kicking"),
+  stat_type = c("offense", "defense", "kicking"),
   file_type = getOption("nflreadr.prefer", default = "rds")
 )
 }
 \arguments{
 \item{seasons}{a numeric vector of seasons to return, defaults to most recent season. If set to \code{TRUE}, returns all available data.}
 
-\item{stat_type}{one of \code{offense} or \code{kicking}}
+\item{stat_type}{one of \code{"offense"}, \code{"defense"}, or \code{"kicking"}}
 
 \item{file_type}{One of \code{c("rds", "qs", "csv", "parquet")}. Can also be set globally with
 \code{options(nflreadr.prefer)}}
@@ -25,6 +25,7 @@ A tibble of week-level player statistics that aims to match NFL official box sco
 Load Player Level Weekly Stats
 }
 \examples{
+\dontshow{.for_cran()}
 \donttest{
 try({ # prevents cran errors
   load_player_stats()

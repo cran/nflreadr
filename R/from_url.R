@@ -10,6 +10,7 @@
 #' @return a dataframe, possibly of type `nflverse_data`
 #'
 #' @examples
+#' \dontshow{.for_cran()}
 #' \donttest{
 #' try({ # prevents cran errors
 #'   urls <- c("https://github.com/nflverse/nflverse-data/releases/download/rosters/roster_2020.csv",
@@ -48,6 +49,7 @@ load_from_url <- function(url, ..., seasons = TRUE, nflverse = FALSE){
 #' @return a dataframe as created by [`readRDS()`]
 #'
 #' @examples
+#' \dontshow{.for_cran()}
 #' \donttest{
 #' try({ # prevents cran errors
 #'   rds_from_url("https://github.com/nflverse/nflverse-data/releases/download/test/combines.rds")
@@ -80,6 +82,7 @@ rds_from_url <- function(url) {
 #' @return a dataframe as created by [`data.table::fread()`]
 #'
 #' @examples
+#' \dontshow{.for_cran()}
 #' \donttest{
 #' try({ # prevents cran errors
 #'   csv_from_url("https://github.com/nflverse/nflverse-data/releases/download/test/combines.csv")
@@ -102,6 +105,7 @@ csv_from_url <- function(...){
 #' @return a raw vector
 #'
 #' @examples
+#' \dontshow{.for_cran()}
 #' \donttest{
 #' try({ # prevents CRAN errors
 #' head(raw_from_url(
@@ -138,6 +142,7 @@ raw_from_url <- function(url){
 #' @return a dataframe as parsed by [`arrow::read_parquet()`]
 #'
 #' @examples
+#' \dontshow{.for_cran()}
 #' \donttest{
 #' try({
 #'   parquet_from_url(
@@ -175,6 +180,7 @@ parquet_from_url <- function(url){
 #' @return a dataframe as parsed by [`qs::qdeserialize()`]
 #'
 #' @examples
+#' \dontshow{.for_cran()}
 #' \donttest{
 #' try({
 #'   qs_from_url(
@@ -236,26 +242,4 @@ loader <- function(url){
 
 detect_filetype <- function(url){
   tools::file_ext(gsub(x = url, pattern = ".gz$", replacement = ""))
-}
-
-make_nflverse_data <- function(dataframe, nflverse_type = NULL, ...){
-
-  class(dataframe) <- c("nflverse_data","tbl_df","tbl","data.table","data.frame")
-
-  dots <- rlang::dots_list(..., .named = TRUE)
-
-  for(i in seq_along(dots)){
-    attr(dataframe, names(dots)[[i]]) <- dots[[i]]
-  }
-
-  if(!is.null(nflverse_type)) attr(dataframe, "nflverse_type") <- nflverse_type
-
-  if(
-    (length(dots) > 0 | !is.null(nflverse_type)) &&
-    is.null(attr(dataframe, "nflverse_timestamp"))
-  ){
-    attr(dataframe, "nflverse_timestamp") <- Sys.time()
-  }
-
-  return(dataframe)
 }
