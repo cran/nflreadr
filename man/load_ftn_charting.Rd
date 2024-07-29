@@ -7,14 +7,20 @@
 FTNData.com
 }
 \usage{
-load_ftn_charting(seasons = most_recent_season())
+load_ftn_charting(
+  seasons = most_recent_season(),
+  file_type = getOption("nflreadr.prefer", default = "rds")
+)
 }
 \arguments{
 \item{seasons}{a numeric vector of seasons to return, defaults to most recent season.
 If set to \code{TRUE}, returns all available data. Data available from 2022 onwards.}
+
+\item{file_type}{One of \code{c("rds", "qs", "csv", "parquet")}. Can also be set globally with
+\code{options(nflreadr.prefer)}}
 }
 \value{
-Precomputed expected fantasy points data from the ffopportunity automated releases.
+Play-level manual charting data from FTN Data
 }
 \description{
 FTN Data manually charts plays and has graciously provided a subset of their

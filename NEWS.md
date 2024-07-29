@@ -1,3 +1,40 @@
+# nflreadr 1.4.1
+
+This release covers a number of bugfixes and function improvements:
+
+- `%c%` internal helper now uses `data.table::fifelse()` to avoid falsely converting 
+dates to integers. (#214)
+- `load_schedules()` cleans the `roof` variable in order to avoid nflverse model 
+issues. (#218)
+- `join_coalesce()` coerces x/y args to data.frame and will return a data.frame
+- `most_recent_season()` now internally computes the exact day of the season 
+opener as Thursday after first Monday of September. (#221)
+- `load_espn_qbr()` no longer supports argument `league` which used to allow 
+loading of College QBR (not in nflverse scope) (#222)
+- New function `stat_mode()`, a re-export from nflfastR, which computes the 
+statistical mode of a vector. (#224)
+- `load_ftn_charting()` now accepts the argument `file_type`. (#228)
+- `clean_team_abbrs()` now accepts the "team" name "NFL". (#231)
+- `load_participation()` now returns additional fields `time_to_throw`, 
+`was_pressure`, `defense_man_zone_type`, and `defense_coverage_type` (#233, 
+thank you @mistakia @john-b-edwards)
+- `clean_player_names()` now can transliterate to latin-ascii if the stringi package 
+is available, controlled by the `convert_to_ascii` argument.
+
+Thank you to: 
+[&#x0040;arjunmenon10](https://github.com/arjunmenon10),
+[&#x0040;engineerchange](https://github.com/engineerchange),
+[&#x0040;isaactpetersen](https://github.com/isaactpetersen),
+[&#x0040;Jeffery-777](https://github.com/Jeffery-777),
+[&#x0040;john-b-edwards](https://github.com/john-b-edwards),
+[&#x0040;justlikekevin](https://github.com/justlikekevin),
+[&#x0040;mrcaseb](https://github.com/mrcaseb),
+[&#x0040;SCasanova](https://github.com/SCasanova), and
+[&#x0040;tanho63](https://github.com/tanho63)
+for their questions, feedback, and contributions to this release. 
+
+---
+
 # nflreadr 1.4.0
 
 This release addresses bugs, improves some utilities, and adds a few new datasets.
@@ -27,13 +64,13 @@ a moving target 🙃
 - `make_nflverse_data_class()` now uses `data.table::setattr()` to preserve data.table pointer
 
 ## Dictionary updates
-- Clarified description of the `"special"` variable in the play-by-play data dictionary. (1.3.2.04) (#189)
-
+- Clarified description of the `"special"` variable in the play-by-play data dictionary. (#189)
 
 Thank you to   [&#x0040;ak47twq](https://github.com/ak47twq), [&#x0040;alecglen](https://github.com/alecglen), [&#x0040;andycancapital](https://github.com/andycancapital), [&#x0040;bullaspc](https://github.com/bullaspc), [&#x0040;mcarman8](https://github.com/mcarman8), [&#x0040;mpcen](https://github.com/mpcen), [&#x0040;mrcaseb](https://github.com/mrcaseb), [&#x0040;tanho63](https://github.com/tanho63), [&#x0040;tashapiro](https://github.com/tashapiro), and [&#x0040;TheMathNinja](https://github.com/TheMathNinja) 
 for their questions, feedback, and contributions to this release
 
 --
+
 
 # nflreadr 1.3.2
 
