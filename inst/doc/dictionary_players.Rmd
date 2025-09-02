@@ -1,8 +1,8 @@
 ---
-title: "Data Dictionary - Player Stats Defense"
+title: "Data Dictionary - Players"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Dictionary - Player Stats Defense}
+  %\VignetteIndexEntry{Data Dictionary - Players}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,15 +15,13 @@ knitr::opts_chunk$set(
 use_dt <- FALSE
 if(requireNamespace("DT", quietly = TRUE)) use_dt <- TRUE
 ```
-
 ```{r eval = use_dt}
-DT::datatable(nflreadr::dictionary_player_stats_def, 
+DT::datatable(nflreadr::dictionary_players, 
               options = list(scrollX = TRUE, pageLength = 25),
               filter = "top",
               rownames = FALSE
               )
 ```
-
 ```{r eval = !use_dt}
-knitr::kable(nflreadr::dictionary_player_stats_def)
+knitr::kable(nflreadr::dictionary_players)
 ```

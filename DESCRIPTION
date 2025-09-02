@@ -1,6 +1,6 @@
 Package: nflreadr
 Title: Download 'nflverse' Data
-Version: 1.4.1
+Version: 1.5.0
 Authors@R: c(
     person("Tan", "Ho", , "tan@tanho.ca", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8388-5155")),
@@ -17,10 +17,10 @@ License: MIT + file LICENSE
 URL: https://nflreadr.nflverse.com,
         https://github.com/nflverse/nflreadr
 BugReports: https://github.com/nflverse/nflreadr/issues
-Depends: R (>= 3.6.0)
+Depends: R (>= 4.1.0)
 Imports: cachem (>= 1.0.0), cli (>= 3.0.0), curl (>= 4.3.0), data.table
-        (>= 1.14.0), glue (>= 1.4.0), memoise (>= 2.0.0), methods,
-        rappdirs (>= 0.3.0), rlang (>= 0.4.10), tools, utils
+        (>= 1.14.0), glue (>= 1.4.0), lifecycle, memoise (>= 2.0.0),
+        methods, rappdirs (>= 0.3.0), rlang (>= 0.4.10), tools, utils
 Suggests: arrow (>= 6.0.0), covr (>= 3.0.0), DT (>= 0.15.0), fs (>=
         1.5.0), gh (>= 1.0.0), knitr (>= 1.0.0), piggyback (>= 0.1.2),
         progressr (>= 0.8.0), qs (>= 0.24.0), rmarkdown (>= 2.6.0),
@@ -29,10 +29,10 @@ VignetteBuilder: knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2024-07-29 00:49:39 UTC; tan
-Author: Tan Ho [aut, cre, cph] (<https://orcid.org/0000-0001-8388-5155>),
+Packaged: 2025-09-02 13:57:44 UTC; tan
+Author: Tan Ho [aut, cre, cph] (ORCID: <https://orcid.org/0000-0001-8388-5155>),
   Sebastian Carl [aut],
   John Edwards [ctb],
   Ben Baldwin [ctb],
@@ -41,4 +41,4 @@ Author: Tan Ho [aut, cre, cph] (<https://orcid.org/0000-0001-8388-5155>),
   Pranav Rajaram [ctb]
 Maintainer: Tan Ho <tan@tanho.ca>
 Repository: CRAN
-Date/Publication: 2024-07-29 13:10:02 UTC
+Date/Publication: 2025-09-02 14:50:02 UTC
