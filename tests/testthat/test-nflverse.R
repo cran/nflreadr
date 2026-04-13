@@ -4,14 +4,11 @@ test_that("load_pbp", {
 
   pbp <- load_pbp()
   pbp_years <- load_pbp(2019:2020)
-  pbp_qs <- load_pbp(2019:2020, file_type = "qs")
 
   expect_s3_class(pbp, "nflverse_data")
-  expect_s3_class(pbp_qs, "nflverse_data")
   expect_s3_class(pbp_years, "nflverse_data")
 
   expect_gt(nrow(pbp_years), 90000)
-  expect_gt(nrow(pbp_qs), 90000)
 })
 test_that("load_participation", {
   skip_on_cran()
@@ -129,7 +126,9 @@ test_that("load_rosters_weekly", {
   skip_on_cran()
   skip_if_offline("github.com")
 
-  rosters <- load_rosters_weekly()
+  rosters <- load_rosters_weekly(
+    seasons = nflreadr::most_recent_season(roster = FALSE)
+  )
   rosters_years <- load_rosters_weekly(seasons = 2019:2020)
 
   expect_s3_class(rosters, "nflverse_data")
@@ -190,7 +189,8 @@ test_that("load_injuries", {
 
   injuries <- load_injuries()
   injuries_years <- load_injuries(seasons = 2019:2020)
-  injuries_all <- load_injuries(seasons = TRUE)
+  # no injury data 2025+
+  injuries_all <- load_injuries(seasons = 2009:2024)
 
   expect_s3_class(injuries, "nflverse_data")
   expect_s3_class(injuries_years, "nflverse_data")

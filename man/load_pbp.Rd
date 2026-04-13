@@ -12,7 +12,7 @@ load_pbp(
 \arguments{
 \item{seasons}{A numeric vector of 4-digit years associated with given NFL seasons - defaults to latest season. If set to \code{TRUE}, returns all available data since 1999.}
 
-\item{file_type}{One of \code{c("rds", "qs", "csv", "parquet")}. Can also be set globally with
+\item{file_type}{One of \code{c("rds", "csv", "parquet")}. Can also be set globally with
 \code{options(nflreadr.prefer)}}
 }
 \value{
@@ -35,7 +35,7 @@ try({ # prevents cran errors
 
 \code{\link{dictionary_pbp}} for the data dictionary bundled as a package dataframe
 
-\url{https://www.nflfastr.com/reference/build_nflfastR_pbp.html} for the nflfastR function \code{nflfastR::build_nflfastR_pbp()}
+\url{https://nflfastr.com/reference/build_nflfastR_pbp.html} for the nflfastR function \code{nflfastR::build_nflfastR_pbp()}
 
 Issues with this data should be filed here: \url{https://github.com/nflverse/nflverse-pbp}
 }

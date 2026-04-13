@@ -8,7 +8,7 @@
 #' [`nflverse_releases()`]
 #' @param folder_path a folder in which subfolders will be created for each release -
 #' defaults to path specified in `options(nflreadr.download_path)` or "." (the current working directory)
-#' @param file_type one of `c("rds","parquet", "csv", "qs")` -
+#' @param file_type one of `c("rds","parquet", "csv")` -
 #' defaults to file type specified in `options(nflreadr.prefer)` or "rds"
 #' @param use_hive whether to create hive-style partition folders for each season, e.g. `"~/pbp/.season=2021/pbp.csv"`
 #' @param .token a GitHub API token, `"default"` uses `gh::gh_token()`
@@ -40,7 +40,7 @@ nflverse_download <- function(
   }
 
   releases <- as.character(rlang::ensyms(...))
-  file_type <- rlang::arg_match0(file_type, c("rds", "csv", "parquet", "qs"))
+  file_type <- rlang::arg_match0(file_type, c("rds", "csv", "parquet"))
 
   stopifnot(
     length(folder_path) == 1,
@@ -55,16 +55,16 @@ nflverse_download <- function(
     .token = .token
   )
 
-  if (!isTRUE(releases) && any(!releases %in% all_releases$release_name)) {
-    missing <- releases[!releases %in% all_releases$release_name]
+  if (!isTRUE(releases) && any(!releases %in% all_releases$tag_name)) {
+    missing <- releases[!releases %in% all_releases$tag_name]
     cli::cli_warn(
       "Could not find {.val {missing}} in nflverse-data releases. Skipping."
     )
-    releases <- releases[releases %in% all_releases$release_name]
+    releases <- releases[releases %in% all_releases$tag_name]
   }
 
   if (isTRUE(releases)) {
-    releases <- all_releases$release_name
+    releases <- all_releases$tag_name
   }
 
   if (length(releases) == 0) {
@@ -176,6 +176,8 @@ nflverse_download <- function(
 nflverse_releases <- function(.token = "default") {
   rlang::check_installed("piggyback (>= 0.1.2)", "gh")
   if (.token == "default") {
+    # we don't set the default .token arg to gh::gh_token because
+    # gh is a suggested dependency and not necessarily installed
     .token <- gh::gh_token()
   }
   releases <- piggyback::pb_releases(
@@ -203,7 +205,7 @@ nflverse_releases <- function(.token = "default") {
   ][order(timestamp, decreasing = TRUE)]
 
   out <- data.table::data.table(
-    release_name = releases$release_name,
+    release_name = releases$tag_name,
     release_description = gsub("[\r\n]", "", releases$release_body)
   )[release_summary, on = c("release_name" = "tag")]
 
